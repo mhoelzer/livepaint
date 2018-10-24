@@ -1,3 +1,4 @@
+let clientUpdates = []
 function Bitmap(width, height) {
     this.grid = [];
     for(var row = 0; row < height; row++) {
@@ -28,7 +29,14 @@ Bitmap.prototype.render = function(target_element) {
     }
 };
 
-Bitmap.prototype.setColor = function(row, col, color) {
+Bitmap.prototype.setColor = function(row, col, color) { // only run locally when local client to add color or w/e; only local b/c pushing to client updates array to show what will be sent to serverin the next fetch request; could make a is local update then do if localupdate
+    this.grid[row][col] = color;
+    this.cells[row][col].style.background = color;
+    let clientUpdate = [row, col, color]; 
+    clientUpdates.push(clientUpdate); // array of new stuff; global obj
+}
+
+Bitmap.prototype.applyUpdatesFromServer = function(row, col, color) { // only called on response from the server when the client needs to fastforward updates from other lcients 
     this.grid[row][col] = color;
     this.cells[row][col].style.background = color;
 }
@@ -38,7 +46,7 @@ Bitmap.prototype.handleEvent = function(event) {
         var row = parseInt(event.currentTarget.dataset.row);
         var col = parseInt(event.currentTarget.dataset.col);
         if(tool === "draw") {
-            this.setColor(row, col, paint_color);
+            this.setColor(row, col, paint_color); // with the set color, you do one pixel change, but you could make it so you can do a line
         } else if(tool == "fill") {
             this.fill(row, col, paint_color);
         }

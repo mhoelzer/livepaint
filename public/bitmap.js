@@ -1,4 +1,4 @@
-let clientUpdates = []
+let clientUpdates = [];
 function Bitmap(width, height) {
     this.grid = [];
     for(var row = 0; row < height; row++) {

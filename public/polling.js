@@ -20,14 +20,10 @@ function pollUpdatedPixels() {
         }
     })
     .then(response => response.json())
-    // res = await res.json()
-    // lastServerUpdate += res.serverUpdates
-    // if(res.serverUpdates.length > 0) {
-    //     res.serverUpdates.forEach(update => {
-    //         bitmap.applyUpdatesFromServer(update[0], update[1], update[2])
-    //     });
-    // }
     .then(objectThing => {
+        objectThing.serverUpdates.forEach(update => {
+            bitmap.applyUpdatesFromServer(update[0], update[1], update[2])
+        })
         setTimeout(pollUpdatedPixels, interval) 
     })
 }

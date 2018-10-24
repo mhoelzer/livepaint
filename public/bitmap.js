@@ -33,7 +33,9 @@ Bitmap.prototype.setColor = function(row, col, color) { // only run locally when
     this.grid[row][col] = color;
     this.cells[row][col].style.background = color;
     let clientUpdate = [row, col, color]; 
+    console.log(clientUpdate);
     clientUpdates.push(clientUpdate); // array of new stuff; global obj
+    // console.log(clientUpdates);
 }
 
 Bitmap.prototype.applyUpdatesFromServer = function(row, col, color) { // only called on response from the server when the client needs to fastforward updates from other lcients 

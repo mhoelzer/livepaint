@@ -12,8 +12,11 @@ app.post("/updates", (request, response) => {
         request.body.clientUpdates.forEach(update => updates.push(update));
     };
     anyNewUpdates = updates.slice(request.body.mostRecentServerUpdate); // slicing segment off total updates from all clients; taking latest segment that this client hasnt seen based off the # given to client; when server handles req and sees how much the client has seen, so slice updates and send back the stuff you havent seen
-    response.send({"serverUpdates": anyNewUpdates});
-    // console.log(anyNewUpdates);
-})
+    console.log(anyNewUpdates);
+    response.send({
+        "sequence": updates.length,
+        "serverUpdates": anyNewUpdates
+    });
+});
 
 app.listen(port);

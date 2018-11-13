@@ -21,9 +21,9 @@ function pollUpdatedPixels() {
         }
     })
     .then(response => response.json())
-    .then(objectThing => {
-        mostRecentServerUpdate = objectThing.sequence;
-        objectThing.serverUpdates.forEach(update => {
+    .then(paintUpdates => {
+        mostRecentServerUpdate = paintUpdates.sequence;
+        paintUpdates.serverUpdates.forEach(update => {
             bitmap.applyUpdatesFromServer(update[0], update[1], update[2])
         });
         setTimeout(pollUpdatedPixels, timeoutTime);
